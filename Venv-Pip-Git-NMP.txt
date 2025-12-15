@@ -1,0 +1,17 @@
+npm config set strict-ssl false
+install package
+npm config set strict-ssl true
+
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pip "PACKAGE"
+
+git add -A
+git commit -m "!@#!@#!@#!@#"
+git -c http.sslVerify=false push 
+git -c http.sslVerify=false clone https://github.com/jschma8/Repair-Data-Organizer.git d:\repos\Repair-Data-Organizer --progress
+
+setup virtual enviroment:
+
+python3 -m venv .venv
+
+Activate virtual enviroment:
+.venv\Scripts\activate
