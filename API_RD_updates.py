@@ -62,6 +62,28 @@ def send_and_rec(msg):
     time.sleep(1)
     return env["socket"].recv(30000)  
 
+def test_reboot():
+    message = '{"command":"reboot"}'  
+    data = send_and_rec(message)
+    logger.info(f"Raw response: {data}")
+    data_reader(data)
+
+def test_static():
+    message = '{"command":"ascset","parameter":"0,network,{"dhcp":"0","ip":"10.17.3.2","netmask":"255.255.255.0","gateway":"10.17.3.254","dns1":"8.8.8.8","dns2":"114.114.114.114"}"}'  
+    data = send_and_rec(message)
+    logger.info(f"Raw response: {data}")
+    data_reader(data)
+    time.sleep(3)
+    test_reboot()
+
+def test_dhcp():
+    message = '{"command":"ascset","parameter":"0,network,{"dhcp":"1"}"}'  
+    data = send_and_rec(message)
+    logger.info(f"Raw response: {data}")
+    data_reader(data)
+    time.sleep(3)
+    test_reboot()
+
 def test_version():
     message = '{"command":"version"}'  
     data = send_and_rec(message)
