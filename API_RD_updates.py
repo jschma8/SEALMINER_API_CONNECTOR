@@ -18,8 +18,10 @@ env = {}
 def data_reader(data):
     try:
         data_str = data.decode('utf-8')
+        print("UTF")
     except UnicodeDecodeError:
         data_str = data.decode('latin-1')
+        print("UTF")
     
     logger.info(f"Decoded response: {data_str}")
     
