@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Configuration: Replace with your miner's IP and port
-host = "172.18.74.162"
+host = "10.17.3.2"
 server_address = (host, 4028)
 
 env = {}
