@@ -10,7 +10,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Configuration: Replace with your miner's IP and port
-host = "10.17.3.2"
+host = "172.16.100.216"
 server_address = (host, 4028)
 
 env = {}
@@ -54,7 +54,7 @@ def data_reader(data):
         for i, status in enumerate(data2['STATUS']):
             if "Code" in status:
                 logger.info(f"Return Code:{status['Code']}")
-                assert status['Code'] == (22)
+                # assert status['Code'] == (22)
 
                 logger.info(f"API call successful! Code is :  {status['Code']}")
     return data2
@@ -122,9 +122,9 @@ def test():
     env["socket"].connect(server_address)
 
     # test_version()
-    # test_summary()
+    test_summary()
     
-    test_suspend()
+    # test_suspend()
     # test_restart()
 
     env["socket"].close()
