@@ -38,7 +38,7 @@ class API_Handler():
             data_str = self.data.decode('latin-1')
             
         
-        logger.info(f"Decoded response: {data_str}")
+        # logger.info(f"Decoded response: {data_str}")
         
         data_str = data_str.strip()
         
