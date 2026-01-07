@@ -52,11 +52,8 @@ class API_Handler():
             if start_idx != -1 and end_idx != 0:
                 json_str = data_str[start_idx:end_idx]
                 data2 = json.loads(json_str)
-                print('a')
-                logger.info(f"Decoded response: {data2}")
             else:
                 lines = data_str.split('\n')
-                print('b')
                 for line in lines:
                     line = line.strip()
                     if line.startswith('{') and line.endswith('}'):
@@ -73,9 +70,9 @@ class API_Handler():
                 if "Code" in status:
                     # logger.info(f"Return Code:{status['Code']}")
                     # assert status['Code'] == (11)
-
+                    logger.info(f"Decoded response: {data2}")
                     logger.info(f"API call successful! Code is :  {status['Code']}")
-        return data2
+        return
 
     def send_and_rec(self):
         env = {}
