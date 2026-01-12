@@ -7,7 +7,8 @@ class Test():
         def operations(self):
             self.initializing()
             func(self)
-            self.closing()    
+            self.closing()
+            return 'return works'    
         return operations
     
     @run_task
@@ -19,11 +20,12 @@ class Test():
 
     def closing(self):
         print("closing connection")
+        return
 
 
 
 testcase=Test('172.100.216.10')
-testcase.named_fuction()
+print(testcase.named_fuction())
 
 # # creating class A
 # class A :

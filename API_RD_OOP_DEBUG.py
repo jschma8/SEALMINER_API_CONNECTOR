@@ -30,26 +30,6 @@ class API_Handler():
         self.server_address = (self.host, 4028)
         self.data = ''
         self.msg = ''
-        self.data2 = ''
-
-
-    def Reboot_decorator(func):
-        def rebooter(self):
-            func(self)
-            print(self.data2)
-            self.data2 = ''
-            time.sleep(5)
-            self.reboot()
-            return self.data2   
-        return rebooter
-
-
-    def SaR_decorator(func):
-        def operations(self):
-            func(self)
-            self.send_and_rec()
-            return self.data2   
-        return operations
 
     def _data_reader(self):
         try:
@@ -63,7 +43,7 @@ class API_Handler():
         data_str = data_str.strip()
         
         try:
-            self.data2 = json.loads(data_str)
+            data2 = json.loads(data_str)
         except json.JSONDecodeError as e:
             # logger.warning(f"Direct parsing failed: {e}")
             start_idx = data_str.find('{')
@@ -71,111 +51,86 @@ class API_Handler():
             
             if start_idx != -1 and end_idx != 0:
                 json_str = data_str[start_idx:end_idx]
-                self.data2 = json.loads(json_str)
+                data2 = json.loads(json_str)
             else:
                 lines = data_str.split('\n')
                 for line in lines:
                     line = line.strip()
                     if line.startswith('{') and line.endswith('}'):
                         try:
-                            self.data2 = json.loads(line)
+                            data2 = json.loads(line)
                             break
                         except json.JSONDecodeError:
                             continue
                 else:
                     raise json.JSONDecodeError("No valid JSON data found!", data_str, 0)
 
-        # if "STATUS" in self.data2 and isinstance(self.data2['STATUS'], list):
-        #     for i, status in enumerate(self.data2['STATUS']):
-        #         if "Code" in status:
+        if "STATUS" in data2 and isinstance(data2['STATUS'], list):
+            for i, status in enumerate(data2['STATUS']):
+                if "Code" in status:
                     # logger.info(f"Return Code:{status['Code']}")
                     # assert status['Code'] == (11)
-                    # logger.info(f"Decoded response: {self.data2}")
-                    # logger.info(f"API call successful! Code is :  {status['Code']}")
-                    ...
-         
-    
+                    logger.info(f"Decoded response: {data2}")
+                    logger.info(f"API call successful! Code is :  {status['Code']}")
+        return
+
     def send_and_rec(self):
         env = {}
-        self.data2 = ''
-        try:
-            env["socket"] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            env["socket"].connect(self.server_address)
-            # logger.info(f"Connection Openned Successfully to {self.host}")
-            env["socket"].sendall(self.msg.encode())  
-            time.sleep(1)
-            self.data = env["socket"].recv(30000)
-            # logger.info(f"Raw response: {self.data}")
-            self._data_reader() 
-            env["socket"].close()
-        except Exception as e:
-            logger.warning(f'Connection failed: {e}')
+        env["socket"] = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        env["socket"].connect(self.server_address)
+        logger.info(f"Connection Openned Successfully to {self.host}")
+        env["socket"].sendall(self.msg.encode())  
+        time.sleep(1)
+        self.data = env["socket"].recv(30000)
+        # logger.info(f"Raw response: {self.data}")
+        self._data_reader() 
+        env["socket"].close()
         self.data = ''
         self.msg = ''
         time.sleep(3) 
-        # logger.info(f"Connection Closed Successfully to {self.host}") 
-        
-    @SaR_decorator
+        logger.info(f"Connection Closed Successfully to {self.host}") 
+    
     def reboot(self):
         self.msg = '{"command":"reboot"}'  
+        self.send_and_rec()
 
     
-    @SaR_decorator
     def version(self):
         self.msg = '{"command":"version"}'  
+        self.send_and_rec()  
 
-    @Reboot_decorator
-    @SaR_decorator
     def static(self):
         self.msg = '{"command":"ascset","parameter":"0,network,{"dhcp":"0","ip":"10.17.3.2","netmask":"255.255.255.0","gateway":"10.17.3.254","dns1":"8.8.8.8","dns2":"114.114.114.114"}"}'  
+        self.send_and_rec()
+        time.sleep(3)
+        self.reboot()
 
-    @Reboot_decorator
-    @SaR_decorator
     def dhcp(self):
         self.msg = '{"command":"ascset","parameter":"0,network,{"dhcp":"1"}"}'  
+        self.send_and_rec()
+        time.sleep(3)
+        self.reboot()
 
-    @SaR_decorator
     def version(self):
         self.msg = '{"command":"version"}'  
+        self.send_and_rec()
 
 
-    @SaR_decorator
     def summary(self):
         self.msg = '{"command":"summary"}'  
+        self.send_and_rec()
 
-    @SaR_decorator
+
     def suspend(self):
         self.msg = '{"command":"ascset","parameter":"0,suspend"}'  
-   
-    @SaR_decorator
+        self.send_and_rec()
+
     def restart(self):
         self.msg = '{"command":"restart"}'  
-
-    @SaR_decorator
-    def config(self):
-        self.msg = '{"command":"config"}'
-
-    
-    def runall(self):
-        print(self.version())
-        time.sleep(20)
-        print(self.summary())
-        time.sleep(20)
-        print(self.config())
-        
+        self.send_and_rec()
 
 if __name__ == "__main__":
     host = API_Handler('172.16.100.216')
-    print(host.suspend())
-    # for i in range(0,180,30):
-    #     time.sleep(i)
-    #     print(f'Pausing for {i} seconds.')
-    #     print(host.summary())
-    time.sleep(120)
-    print(host.reboot())
-
-    # print(host.summary())
-    # time.sleep(20)
-    # print(host.restart())
-    # time.sleep(60)
-    # print(host.summary())
+    host.version()
+    time.sleep(5)
+    host.summary()
