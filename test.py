@@ -1,3 +1,4 @@
+import time
 class Test():
     def __init__(self, host):
         self.host = host
@@ -11,8 +12,7 @@ class Test():
             return 'return works'    
         return operations
     
-    @run_task
-    def named_fuction(self):
+    def named_function(self):
         print("doing stuff")
 
     def initializing(self):
@@ -21,11 +21,26 @@ class Test():
     def closing(self):
         print("closing connection")
         return
+    
 
+    def run_all(self):
+        def sleeper(timer):
+            time.sleep(timer)
+            print(f'sleep for {timer}')
+        
+        self.initializing()
+        sleeper(20)
+        self.named_function()
+        sleeper(20)
+        self.closing()
+        sleeper(20)
+        
+        
+        
 
 
 testcase=Test('172.100.216.10')
-print(testcase.named_fuction())
+print(testcase.run_all())
 
 # # creating class A
 # class A :

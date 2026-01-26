@@ -154,15 +154,50 @@ class API_Handler():
     @SaR_decorator
     def config(self):
         self.msg = '{"command":"config"}'
-
     
-    def runall(self):
+    @SaR_decorator
+    def devs(self):
+        self.msg = '{"command":"devs"}'
+    
+    @SaR_decorator
+    def pools(self):
+        self.msg = '{"command":"pools"}'
+
+    @SaR_decorator
+    def devdetails(self):
+        self.msg = '{"command":"devdetails"}'
+
+    @SaR_decorator
+    def stats(self):
+        self.msg = '{"command":"devdetails"}'
+
+    @SaR_decorator
+    def stats(self):
+        self.msg = '{"command":"coin"}'
+
+    def runall_read(self):
+        def sleeper(timer):
+            print(f'sleep for {timer}')
+            time.sleep(timer)
+            
         print(self.version())
-        time.sleep(20)
+        sleeper(20)
         print(self.summary())
-        time.sleep(20)
+        sleeper(20)
         print(self.config())
-        
+        sleeper(20)
+        print(self.devs())
+        sleeper(20)
+        print(self.pools())
+        sleeper(20)
+        print(self.devdetails())
+        sleeper(20)
+        print(self.stats())
+        sleeper(20)
+        print(self.coin())
+        sleeper(20)
+        print(self.reboot())
+
 
 if __name__ == "__main__":
     host = API_Handler('172.16.100.216')
