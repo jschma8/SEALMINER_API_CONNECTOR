@@ -127,7 +127,15 @@ class API_Handler():
     @Reboot_decorator
     @SaR_decorator
     def static(self):
-        self.msg = '{"command":"ascset","parameter":"0,network,{"dhcp":"0","ip":"10.17.3.2","netmask":"255.255.255.0","gateway":"10.17.3.254","dns1":"8.8.8.8","dns2":"114.114.114.114"}"}'  
+        static_ip = input('Static IP address: ')
+        netmask = input('Netmask: ')
+        gateway_ip = input('Gateway IP: ')
+        dns1 = input('DNS1 Address: ')
+        dns2 = input("DNS2 Address: ")
+        segment0 = {"dhcp":"0","ip":static_ip,"netmask":netmask,"gateway":gateway_ip,"dns1":dns1,"dns2":dns2}
+        segment1 = f'0,network,{segment0}'
+        self.msg = {"command":"ascset","parameter":segment1}
+        self.msg = str(self.msg)
 
     @Reboot_decorator
     @SaR_decorator
@@ -200,14 +208,15 @@ class API_Handler():
 
 
 if __name__ == "__main__":
-    host = API_Handler('172.16.100.216')
-    print(host.suspend())
+    IP_addresss = input("Input address of miner: ")
+    host = API_Handler(IP_addresss)
+    # print(host.suspend())
     # for i in range(0,180,30):
     #     time.sleep(i)
     #     print(f'Pausing for {i} seconds.')
     #     print(host.summary())
-    time.sleep(120)
-    print(host.reboot())
+    # time.sleep(120)
+    # print(host.reboot())
 
     # print(host.summary())
     # time.sleep(20)

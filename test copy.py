@@ -1,9 +1,12 @@
 import pandas as pd
 import numpy as np
 
-# df = pd.DataFrame(columns="IP")
-wall = ['1','2','3','4','11','12','13','14','15','16','17','18','19','20','21','22','23','24']
-section = np.arange(1,25,1)
-print(section)
-# for i in range(126):
-
+static_ip = input('Static IP address: ')
+netmask = input('Netmask: ')
+gateway_ip = input('Gateway IP: ')
+dns1 = input('DNS1 Address: ')
+dns2 = input("DNS2 Address: ")
+segment0 = {"dhcp":"0","ip":static_ip,"netmask":netmask,"gateway":gateway_ip,"dns1":dns1,"dns2":dns2}
+segment1 = f'0,network,{segment0}'
+msg = {"command":"ascset","parameter":segment1}
+msg = str(msg)
