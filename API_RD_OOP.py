@@ -117,12 +117,15 @@ class API_Handler():
         
     @SaR_decorator
     def reboot(self):
-        self.msg = '{"command":"reboot"}'  
+        self.msg = '{"command":"reboot"}'
 
-    
     @SaR_decorator
-    def version(self):
-        self.msg = '{"command":"version"}'  
+    def pools(self):
+        self.msg = '{"command":"pools"}'   
+
+    @SaR_decorator
+    def suspend(self):
+        self.msg = '{"command":"ascset","parameter":"0,suspend"}'  
 
     @Reboot_decorator
     @SaR_decorator
@@ -143,21 +146,16 @@ class API_Handler():
         self.msg = '{"command":"ascset","parameter":"0,network,{"dhcp":"1"}"}'  
 
     @SaR_decorator
+    def restart(self):
+        self.msg = '{"command":"restart"}'  
+
+    @SaR_decorator
     def version(self):
         self.msg = '{"command":"version"}'  
 
-
     @SaR_decorator
     def summary(self):
-        self.msg = '{"command":"summary"}'  
-
-    @SaR_decorator
-    def suspend(self):
-        self.msg = '{"command":"ascset","parameter":"0,suspend"}'  
-   
-    @SaR_decorator
-    def restart(self):
-        self.msg = '{"command":"restart"}'  
+        self.msg = '{"command":"summary"}' 
 
     @SaR_decorator
     def config(self):
@@ -168,19 +166,15 @@ class API_Handler():
         self.msg = '{"command":"devs"}'
     
     @SaR_decorator
-    def pools(self):
-        self.msg = '{"command":"pools"}'
-
-    @SaR_decorator
     def devdetails(self):
         self.msg = '{"command":"devdetails"}'
 
     @SaR_decorator
     def stats(self):
-        self.msg = '{"command":"devdetails"}'
+        self.msg = '{"command":"stats"}'
 
     @SaR_decorator
-    def stats(self):
+    def coin(self):
         self.msg = '{"command":"coin"}'
 
     def runall_read(self):
