@@ -202,18 +202,9 @@ class API_Handler():
 
 
 if __name__ == "__main__":
+
+    
     IP_addresss = input("Input address of miner: ")
     host = API_Handler(IP_addresss)
-    # print(host.suspend())
-    # for i in range(0,180,30):
-    #     time.sleep(i)
-    #     print(f'Pausing for {i} seconds.')
-    #     print(host.summary())
-    # time.sleep(120)
-    # print(host.reboot())
-
-    # print(host.summary())
-    # time.sleep(20)
-    # print(host.restart())
-    # time.sleep(60)
-    # print(host.summary())
+    stats = host.stats
+    print(stats)

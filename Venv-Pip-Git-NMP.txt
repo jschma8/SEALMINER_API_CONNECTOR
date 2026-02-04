@@ -2,7 +2,7 @@ npm config set strict-ssl false
 install package
 npm config set strict-ssl true
 
-pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pip "PACKAGE"
+pip install --trusted-host pypi.org --trusted-host files.pythonhosted.org pip "PACKAGE" 
 
 git add -A
 git commit -m "!@#!@#!@#!@#"
